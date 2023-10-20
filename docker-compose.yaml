@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: postgres
     image: postgres:16.0-alpine
     ports:
       - ${DATABASE_PORT}:5432
@@ -11,6 +12,7 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
 
   maildev:
+    container_name: adminer
     build:
       context: .
       dockerfile: maildev.Dockerfile
