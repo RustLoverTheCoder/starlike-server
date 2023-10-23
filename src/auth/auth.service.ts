@@ -32,6 +32,7 @@ import { JwtRefreshPayloadType } from './strategies/types/jwt-refresh-payload.ty
 import { Session } from 'src/session/entities/session.entity';
 import { JwtPayloadType } from './strategies/types/jwt-payload.type';
 import { AuthRegisterLoginPhoneDto } from './dto/auth-register-login-phone.dto';
+import { AuthPhoneLoginDto } from './dto/auth-phone-login.dto';
 
 @Injectable()
 export class AuthService {
@@ -67,6 +68,72 @@ export class AuthService {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
             email: `needLoginViaProvider:${user.provider}`,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      loginDto.password,
+      user.password,
+    );
+
+    if (!isValidPassword) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            password: 'incorrectPassword',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    const session = await this.sessionService.create({
+      user,
+    });
+
+    const { token, refreshToken, tokenExpires } = await this.getTokensData({
+      id: user.id,
+      role: user.role,
+      sessionId: session.id,
+    });
+
+    return {
+      refreshToken,
+      token,
+      tokenExpires,
+      user,
+    };
+  }
+
+  async validateLoginPhone(
+    loginDto: AuthPhoneLoginDto,
+  ): Promise<LoginResponseType> {
+    const user = await this.usersService.findOne({
+      phoneNumber: loginDto.phoneNumber,
+    });
+
+    if (!user) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            email: 'notFound',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    if (user.provider !== AuthProvidersEnum.phone) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            phoneNumber: `needLoginViaProvider:${user.provider}`,
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -229,6 +296,7 @@ export class AuthService {
     await this.usersService.create({
       ...dto,
       phoneNumber: dto.phoneNumber,
+      provider: 'phone',
       role: {
         id: RoleEnum.user,
       } as Role,

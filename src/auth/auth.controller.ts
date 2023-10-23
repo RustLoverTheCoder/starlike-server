@@ -24,6 +24,7 @@ import { LoginResponseType } from './types/login-response.type';
 import { User } from '../users/entities/user.entity';
 import { NullableType } from '../utils/types/nullable.type';
 import { AuthRegisterLoginPhoneDto } from './dto/auth-register-login-phone.dto';
+import { AuthPhoneLoginDto } from './dto/auth-phone-login.dto';
 
 @ApiTags('Auth')
 @Controller({
@@ -56,6 +57,14 @@ export class AuthController {
     @Body() confirmEmailDto: AuthConfirmEmailDto,
   ): Promise<void> {
     return this.service.confirmEmail(confirmEmailDto.hash);
+  }
+
+  @Post('phone/login')
+  @HttpCode(HttpStatus.OK)
+  public loginPhone(
+    @Body() loginDto: AuthPhoneLoginDto,
+  ): Promise<LoginResponseType> {
+    return this.service.validateLoginPhone(loginDto);
   }
 
   @Post('phone/register')
