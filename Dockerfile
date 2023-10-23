@@ -1,6 +1,9 @@
 FROM node:18.18.0-alpine
 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN apk update
 RUN apk add --no-cache bash
+RUN npm config set registry http://mirrors.cloud.tencent.com/npm/
 RUN npm i -g @nestjs/cli typescript ts-node
 
 COPY package*.json /tmp/app/
@@ -17,6 +20,7 @@ RUN sed -i 's/\r//g' /opt/startup.dev.sh
 
 WORKDIR /usr/src/app
 RUN if [ ! -f .env ]; then cp env-example .env; fi
+RUN cat .env
 RUN npm run build
 
 CMD ["/opt/startup.dev.sh"]

@@ -1,18 +1,16 @@
 services:
   postgres:
-    container_name: postgres
     image: postgres:16.0-alpine
     ports:
       - ${DATABASE_PORT}:5432
     volumes:
-      - ./data/postgres/data:/var/lib/postgresql/data
+      - boilerplate-db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
 
   maildev:
-    container_name: maildev
     build:
       context: .
       dockerfile: maildev.Dockerfile
@@ -22,7 +20,6 @@ services:
 
   adminer:
     image: adminer
-    container_name: adminer
     restart: always
     ports:
       - 8080:8080
