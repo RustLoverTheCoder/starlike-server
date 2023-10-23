@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
-import { FilesModule } from './files/files.module';
+// import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import databaseConfig from './config/database.config';
 import authConfig from './config/auth.config';
@@ -14,10 +14,10 @@ import appleConfig from './config/apple.config';
 import path from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthAppleModule } from './auth-apple/auth-apple.module';
-import { AuthFacebookModule } from './auth-facebook/auth-facebook.module';
-import { AuthGoogleModule } from './auth-google/auth-google.module';
-import { AuthTwitterModule } from './auth-twitter/auth-twitter.module';
+// import { AuthAppleModule } from './auth-apple/auth-apple.module';
+// import { AuthFacebookModule } from './auth-facebook/auth-facebook.module';
+// import { AuthGoogleModule } from './auth-google/auth-google.module';
+// import { AuthTwitterModule } from './auth-twitter/auth-twitter.module';
 import { I18nModule } from 'nestjs-i18n/dist/i18n.module';
 import { HeaderResolver } from 'nestjs-i18n';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
@@ -76,12 +76,12 @@ import { MailerModule } from './mailer/mailer.module';
       inject: [ConfigService],
     }),
     UsersModule,
-    FilesModule,
+    // FilesModule,
     AuthModule,
-    AuthFacebookModule,
-    AuthGoogleModule,
-    AuthTwitterModule,
-    AuthAppleModule,
+    // AuthFacebookModule,
+    // AuthGoogleModule,
+    // AuthTwitterModule,
+    // AuthAppleModule,
     ForgotModule,
     SessionModule,
     MailModule,
