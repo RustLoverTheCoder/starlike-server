@@ -70,11 +70,11 @@ export class User extends EntityHelper {
 
   @Index()
   @Column({ type: String, nullable: true })
-  firstName: string | null;
+  firstName?: string | null;
 
   @Index()
   @Column({ type: String, nullable: true })
-  lastName: string | null;
+  lastName?: string | null;
 
   @ManyToOne(() => FileEntity, {
     eager: true,

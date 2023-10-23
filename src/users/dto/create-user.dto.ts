@@ -17,12 +17,18 @@ import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transfor
 export class CreateUserDto {
   @ApiProperty({ example: 'test1@example.com' })
   @Transform(lowerCaseTransformer)
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @Validate(IsNotExist, ['User'], {
     message: 'emailAlreadyExists',
   })
   @IsEmail()
-  email: string | null;
+  email?: string | null;
+
+  phoneNumber?: string | null;
+
+  @ApiProperty({ example: 'Doe' })
+  @IsNotEmpty()
+  username?: string | null;
 
   @ApiProperty()
   @MinLength(6)
@@ -33,12 +39,12 @@ export class CreateUserDto {
   socialId?: string | null;
 
   @ApiProperty({ example: 'John' })
-  @IsNotEmpty()
-  firstName: string | null;
+  // @IsNotEmpty()
+  firstName?: string | null;
 
   @ApiProperty({ example: 'Doe' })
-  @IsNotEmpty()
-  lastName: string | null;
+  // @IsNotEmpty()
+  lastName?: string | null;
 
   @ApiProperty({ type: () => FileEntity })
   @IsOptional()
