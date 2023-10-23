@@ -31,6 +31,7 @@ import { SessionService } from 'src/session/session.service';
 import { JwtRefreshPayloadType } from './strategies/types/jwt-refresh-payload.type';
 import { Session } from 'src/session/entities/session.entity';
 import { JwtPayloadType } from './strategies/types/jwt-payload.type';
+import { AuthRegisterLoginPhoneDto } from './dto/auth-register-login-phone.dto';
 
 @Injectable()
 export class AuthService {
@@ -217,6 +218,27 @@ export class AuthService {
         hash,
       },
     });
+  }
+
+  async registerPhone(dto: AuthRegisterLoginPhoneDto): Promise<void> {
+    const hash = crypto
+      .createHash('sha256')
+      .update(randomStringGenerator())
+      .digest('hex');
+
+    await this.usersService.create({
+      ...dto,
+      phoneNumber: dto.phoneNumber,
+      role: {
+        id: RoleEnum.user,
+      } as Role,
+      status: {
+        id: StatusEnum.inactive,
+      } as Status,
+      hash,
+    });
+
+    // todo 发送验证码
   }
 
   async confirmEmail(hash: string): Promise<void> {

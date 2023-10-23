@@ -23,6 +23,7 @@ import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
 import { LoginResponseType } from './types/login-response.type';
 import { User } from '../users/entities/user.entity';
 import { NullableType } from '../utils/types/nullable.type';
+import { AuthRegisterLoginPhoneDto } from './dto/auth-register-login-phone.dto';
 
 @ApiTags('Auth')
 @Controller({
@@ -55,6 +56,14 @@ export class AuthController {
     @Body() confirmEmailDto: AuthConfirmEmailDto,
   ): Promise<void> {
     return this.service.confirmEmail(confirmEmailDto.hash);
+  }
+
+  @Post('phone/register')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async registerPhone(
+    @Body() createUserDto: AuthRegisterLoginPhoneDto,
+  ): Promise<void> {
+    return this.service.registerPhone(createUserDto);
   }
 
   @Post('forgot/password')

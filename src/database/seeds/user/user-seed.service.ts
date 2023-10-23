@@ -28,7 +28,7 @@ export class UserSeedService {
           lastName: 'Admin',
           username: 'admin',
           email: 'admin@example.com',
-          phoneNumber: '18494933897',
+          phoneNumber: '+8618494933897',
           password: 'secret',
           role: {
             id: RoleEnum.admin,
@@ -56,7 +56,7 @@ export class UserSeedService {
           firstName: 'John',
           lastName: 'Doe',
           username: 'johndoe',
-          phoneNumber: '18231364692',
+          phoneNumber: '+8618231364692',
           email: 'john.doe@example.com',
           password: 'secret',
           role: {
