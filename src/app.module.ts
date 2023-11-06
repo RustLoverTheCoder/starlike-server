@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 // import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
+import { ReservationsModule } from './reservations/reservations.module';
 import databaseConfig from './config/database.config';
 import authConfig from './config/auth.config';
 import appConfig from './config/app.config';
@@ -78,6 +79,7 @@ import { MailerModule } from './mailer/mailer.module';
     UsersModule,
     // FilesModule,
     AuthModule,
+    ReservationsModule,
     // AuthFacebookModule,
     // AuthGoogleModule,
     // AuthTwitterModule,
